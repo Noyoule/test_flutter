@@ -1,22 +1,19 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 
-import '../model/user.dart';
+import '../model/user_model.dart';
 
 class ApiDataSource {
-  final dio = Dio();
+  final _dio = Dio();
 
-  Future<List<User>> getData() async {
+  Future<List<UserModel>> getData(int limit) async {
     try {
-      final response = await dio.get<Map<String, dynamic>>(
-        'https://randomuser.me/api/',
-        options: Options(responseType: ResponseType.json),
-      );
+      final response = await _dio.get<Map<String, dynamic>>(
+          'https://randomuser.me/api/',
+          queryParameters: {'results': limit});
       final Map<String, dynamic> responseData = response.data!;
       final List<dynamic> results = responseData['results'];
-      final List<User> users =
-          results.map((json) => User.fromJson(json)).toList();
+      final List<UserModel> users =
+          results.map((json) => UserModel.fromJson(json)).toList();
       return users;
     } catch (error) {
       print('Error fetching data: $error');

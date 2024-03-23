@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:test_flutter/model/user_model.dart';
 
 class PersonComponent extends StatefulWidget {
-  const PersonComponent({super.key});
+  final UserModel user;
+  const PersonComponent({super.key, required this.user});
 
   @override
   State<PersonComponent> createState() => _PersonComponentState();
@@ -14,7 +16,6 @@ class _PersonComponentState extends State<PersonComponent> {
     return Card(
       child: Container(
         padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0,),
-        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Stack(
           children: [
             Column(
@@ -26,48 +27,48 @@ class _PersonComponentState extends State<PersonComponent> {
                   children: [
                     ClipOval(
                       child: Image.network(
-                          "https://randomuser.me/api/portraits/med/women/58.jpg"),
+                          widget.user.picture!.medium!),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Mr ALi Komlan",
-                          style: TextStyle(
+                          "${widget.user.name!.title!} ${widget.user.name!.first!} ${widget.user.name!.last!}",
+                          style: const TextStyle(
                               fontFamily: "Merriweather",
                               fontSize: 13
                           ),
                         ),
-                        Gap(5),
+                        const Gap(5),
                         Text(
-                          "alikomlan@gmail.com",
-                          style: TextStyle(
+                          widget.user.email!,
+                          style: const TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 11
+                          ),
+                        ),
+                        const Gap(5),
+                        Text(
+                          "${widget.user.dob!.age} years old",
+                          style: const TextStyle(
                               fontFamily: "Poppins",
                               fontSize: 12
                           ),
                         ),
-                        Gap(5),
+                        const Gap(5),
                         Text(
-                          "53 years old",
-                          style: TextStyle(
+                          widget.user.gender!,
+                          style: const TextStyle(
                               fontFamily: "Poppins",
                               fontSize: 12
                           ),
                         ),
-                        Gap(5),
-                        Text(
-                          "Male",
-                          style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 12
-                          ),
-                        ),
-                        Gap(5),
-                        Text("Registered since 3 years",
-                          style: TextStyle(
+                        const Gap(5),
+                        Text("Registered since ${widget.user.registered.age} years",
+                          style: const TextStyle(
                               fontFamily: "Poppins",
                               fontSize: 11,
                               fontStyle: FontStyle.italic
@@ -77,10 +78,10 @@ class _PersonComponentState extends State<PersonComponent> {
                   ],
                 ),
                 const Gap(5),
-                const Text(
-                  "1234 XK, Oosterhesselen, Zuid-Holland, Netherlands",
+                Text(
+                  " ${widget.user.location.city}, ${widget.user.location.state}, ${widget.user.location.country}",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 12,
                       color: Colors.black45,
                       fontFamily: "Lato"
@@ -88,45 +89,45 @@ class _PersonComponentState extends State<PersonComponent> {
                 ),
                 const Divider(),
                 const Gap(5),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.perm_identity,
+                    const Icon(Icons.perm_identity,
                       color: Colors.grey,),
-                    Gap(5),
-                    Text("91991602   BSN")
+                    const Gap(5),
+                    Text("${widget.user.id?.value}   ${widget.user.id?.name}")
                   ],
                 ),
                 const Gap(5),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.streetview,
+                    const Icon(Icons.streetview,
                       color: Colors.grey,),
-                    Gap(5),
-                    Text("Hendrik Vinkhof, 1150")
+                    const Gap(5),
+                    Text("${widget.user.location.street?.name}, ${widget.user.location.street?.number}")
                   ],
                 ),
                 const Gap(5),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.location_on_outlined,
+                    const Icon(Icons.location_on_outlined,
                       color: Colors.grey,),
-                    Gap(5),
-                    Text("31.9275, -73.3391")
+                    const Gap(5),
+                    Text("${widget.user.location.coordinates?.longitude},${widget.user.location.coordinates?.latitude}")
                   ],
                 ),
                 const Gap(5),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.timelapse_sharp,
+                    const Icon(Icons.timelapse_sharp,
                       color: Colors.grey,),
-                    Gap(5),
-                    Text("0:00"),
-                    Gap(2),
+                    const Gap(5),
+                    Text("${widget.user.location.timezone?.offset}"),
+                    const Gap(2),
                     Text(
-                      "Western Europe Time, London, Lisbon, Casablanca",
+                      "${widget.user.location.timezone?.description}",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 8,
                         fontStyle: FontStyle.italic,
                         fontFamily: "Poppins",
@@ -135,21 +136,21 @@ class _PersonComponentState extends State<PersonComponent> {
                   ],
                 ),
                 const Gap(5),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.phone,
+                    const Icon(Icons.phone,
                       color: Colors.grey,),
-                    Gap(5),
-                    Text("(0590) 076516")
+                    const Gap(5),
+                    Text("${widget.user.cell}")
                   ],
                 ),
                 const Gap(5),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.phone_iphone,
+                    const Icon(Icons.phone_iphone,
                       color: Colors.grey,),
-                    Gap(5),
-                    Text("(06) 79675313")
+                    const Gap(5),
+                    Text("${widget.user.phone}")
                   ],
                 ),
               ],

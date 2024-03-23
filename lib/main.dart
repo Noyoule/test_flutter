@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_flutter/service/api_data_source.dart';
+import 'package:test_flutter/ui/bloc/user_bloc.dart';
 import 'package:test_flutter/ui/main_srceen.dart';
 
 void main() {
@@ -59,14 +61,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      color: Colors.white,
-      theme: ThemeData(
-        canvasColor: const Color(0xFFFEFEFF),
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: const MainScreen(),
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => UserBloc(source: ApiDataSource()))
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          color: Colors.white,
+          theme: ThemeData(
+            canvasColor: const Color(0xFFFEFEFF),
+            scaffoldBackgroundColor: Colors.white,
+          ),
+          home: const MainScreen(),
+        ));
   }
 }
