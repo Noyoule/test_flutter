@@ -1,16 +1,13 @@
 # test_flutter
 
-A new Flutter project.
+Projet de test en flutter 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Pour démarrer le projet il faut installer toutes dépendance et exécuter le projet
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+##Description
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Le projet affiche une liste de donnée qui sont paginer au fur et à mesure que l'utilisateur scroll
+-  Permet de créer, modifier, supprimer une donné
