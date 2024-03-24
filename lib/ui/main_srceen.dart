@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:test_flutter/service/api_data_source.dart';
+import 'package:test_flutter/Utils/utils.dart';
+import 'package:test_flutter/model/model.dart';
 import 'package:test_flutter/ui/bloc/user_bloc.dart';
 import 'package:test_flutter/ui/components/person_component.dart';
-
-import '../model/user_model.dart';
+import 'package:test_flutter/ui/search_page.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,24 +15,28 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late List<UserModel> users;
+  late List<User> users;
   late ScrollController listController;
+  late int lastRecuperationIndex;
 
   @override
   void initState() {
+    lastRecuperationIndex = 1;
     users = [];
     super.initState();
     _getData(5);
     listController = ScrollController();
     listController.addListener(() {
-      if (listController.position.maxScrollExtent == listController.offset) {
+      if (listController.position.maxScrollExtent == listController.offset || users.length<4) {
         _getData(3);
+        lastRecuperationIndex += 3;
       }
     });
   }
 
   void _getData(int limit) {
-    context.read<UserBloc>().add(GetUserEvent(limit: limit));
+    context.read<UserBloc>().add(GetUserEvent(
+        lastRecuperationIndex: lastRecuperationIndex, limit: limit));
   }
 
   @override
@@ -53,13 +57,22 @@ class _MainScreenState extends State<MainScreen> {
                       color: Color.fromARGB(255, 80, 80, 80)),
                 ),
                 const Spacer(),
-                Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromARGB(255, 235, 235, 235),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder: (_, __, ___) =>
+                            const SearchPage()));
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 235, 235, 235),
+                    ),
+                    padding: const EdgeInsets.all(5),
+                    child: const Icon(Icons.search, color: Colors.grey),
                   ),
-                  padding: const EdgeInsets.all(5),
-                  child: const Icon(Icons.search, color: Colors.grey),
                 )
               ],
             ),
@@ -69,6 +82,12 @@ class _MainScreenState extends State<MainScreen> {
             listener: (context, state) {
               if (state is UserGettedState) {
                 users.addAll(state.users);
+              } else if (state is UserCreatedState) {
+                users.add(state.user);
+              } else if (state is UserDeletedSate) {
+                users.removeAt(state.index);
+              } else if (state is UserUpdateState) {
+                users[state.index] = state.user;
               }
             },
             builder: (context, state) {
@@ -82,6 +101,7 @@ class _MainScreenState extends State<MainScreen> {
                         if (index < users.length) {
                           return PersonComponent(
                             user: users.elementAt(index),
+                            index: index,
                           );
                         } else {
                           return const Padding(
@@ -99,10 +119,8 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          var source = ApiDataSource();
-          source.getData(5);
+          showForm(context: context);
         },
-        tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

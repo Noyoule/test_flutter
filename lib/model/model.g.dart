@@ -33,25 +33,32 @@ class TableUser extends SqfEntityTableBase {
 
     // declare fields
     fields = [
+      SqfEntityFieldBase('picture_source', DbType.text,
+          defaultValue: 'network'),
       SqfEntityFieldBase('email', DbType.text),
       SqfEntityFieldBase('title', DbType.text),
       SqfEntityFieldBase('first', DbType.text),
+      SqfEntityFieldBase('gender', DbType.text),
       SqfEntityFieldBase('last', DbType.text),
       SqfEntityFieldBase('street_number', DbType.text),
       SqfEntityFieldBase('street_name', DbType.text),
       SqfEntityFieldBase('location_city', DbType.text),
       SqfEntityFieldBase('location_state', DbType.text),
       SqfEntityFieldBase('location_contry', DbType.text),
-      SqfEntityFieldBase('location_postcode', DbType.text),
       SqfEntityFieldBase('coordinate_lat', DbType.text),
       SqfEntityFieldBase('coordinate_long', DbType.text),
       SqfEntityFieldBase('date_of_birth', DbType.numeric),
+      SqfEntityFieldBase('age', DbType.numeric),
+      SqfEntityFieldBase('registration_age', DbType.numeric),
       SqfEntityFieldBase('date_of_registration', DbType.numeric),
       SqfEntityFieldBase('phone', DbType.text),
       SqfEntityFieldBase('cell', DbType.text),
       SqfEntityFieldBase('id_value', DbType.text),
+      SqfEntityFieldBase('id_name', DbType.text),
       SqfEntityFieldBase('picture_path', DbType.text),
       SqfEntityFieldBase('nat', DbType.text),
+      SqfEntityFieldBase('timezone_value', DbType.text),
+      SqfEntityFieldBase('timezone_description', DbType.text),
     ];
     super.init();
   }
@@ -63,8 +70,8 @@ class TableUser extends SqfEntityTableBase {
 // END TABLES
 
 // BEGIN DATABASE MODEL
-class MyDbModel extends SqfEntityModelProvider {
-  MyDbModel() {
+class FlutterTestModel extends SqfEntityModelProvider {
+  FlutterTestModel() {
     databaseName = myDbModel.databaseName;
     password = myDbModel.password;
     dbVersion = myDbModel.dbVersion;
@@ -91,71 +98,89 @@ class MyDbModel extends SqfEntityModelProvider {
 class User extends TableBase {
   User(
       {this.id,
+      this.picture_source,
       this.email,
       this.title,
       this.first,
+      this.gender,
       this.last,
       this.street_number,
       this.street_name,
       this.location_city,
       this.location_state,
       this.location_contry,
-      this.location_postcode,
       this.coordinate_lat,
       this.coordinate_long,
       this.date_of_birth,
+      this.age,
+      this.registration_age,
       this.date_of_registration,
       this.phone,
       this.cell,
       this.id_value,
+      this.id_name,
       this.picture_path,
-      this.nat}) {
+      this.nat,
+      this.timezone_value,
+      this.timezone_description}) {
     _setDefaultValues();
     softDeleteActivated = false;
   }
   User.withFields(
+      this.picture_source,
       this.email,
       this.title,
       this.first,
+      this.gender,
       this.last,
       this.street_number,
       this.street_name,
       this.location_city,
       this.location_state,
       this.location_contry,
-      this.location_postcode,
       this.coordinate_lat,
       this.coordinate_long,
       this.date_of_birth,
+      this.age,
+      this.registration_age,
       this.date_of_registration,
       this.phone,
       this.cell,
       this.id_value,
+      this.id_name,
       this.picture_path,
-      this.nat) {
+      this.nat,
+      this.timezone_value,
+      this.timezone_description) {
     _setDefaultValues();
   }
   User.withId(
       this.id,
+      this.picture_source,
       this.email,
       this.title,
       this.first,
+      this.gender,
       this.last,
       this.street_number,
       this.street_name,
       this.location_city,
       this.location_state,
       this.location_contry,
-      this.location_postcode,
       this.coordinate_lat,
       this.coordinate_long,
       this.date_of_birth,
+      this.age,
+      this.registration_age,
       this.date_of_registration,
       this.phone,
       this.cell,
       this.id_value,
+      this.id_name,
       this.picture_path,
-      this.nat) {
+      this.nat,
+      this.timezone_value,
+      this.timezone_description) {
     _setDefaultValues();
   }
   // fromMap v2.0
@@ -164,6 +189,9 @@ class User extends TableBase {
       _setDefaultValues();
     }
     id = int.tryParse(o['id'].toString());
+    if (o['picture_source'] != null) {
+      picture_source = o['picture_source'].toString();
+    }
     if (o['email'] != null) {
       email = o['email'].toString();
     }
@@ -172,6 +200,9 @@ class User extends TableBase {
     }
     if (o['first'] != null) {
       first = o['first'].toString();
+    }
+    if (o['gender'] != null) {
+      gender = o['gender'].toString();
     }
     if (o['last'] != null) {
       last = o['last'].toString();
@@ -191,9 +222,6 @@ class User extends TableBase {
     if (o['location_contry'] != null) {
       location_contry = o['location_contry'].toString();
     }
-    if (o['location_postcode'] != null) {
-      location_postcode = o['location_postcode'].toString();
-    }
     if (o['coordinate_lat'] != null) {
       coordinate_lat = o['coordinate_lat'].toString();
     }
@@ -202,6 +230,12 @@ class User extends TableBase {
     }
     if (o['date_of_birth'] != null) {
       date_of_birth = int.tryParse(o['date_of_birth'].toString());
+    }
+    if (o['age'] != null) {
+      age = int.tryParse(o['age'].toString());
+    }
+    if (o['registration_age'] != null) {
+      registration_age = int.tryParse(o['registration_age'].toString());
     }
     if (o['date_of_registration'] != null) {
       date_of_registration = int.tryParse(o['date_of_registration'].toString());
@@ -215,34 +249,49 @@ class User extends TableBase {
     if (o['id_value'] != null) {
       id_value = o['id_value'].toString();
     }
+    if (o['id_name'] != null) {
+      id_name = o['id_name'].toString();
+    }
     if (o['picture_path'] != null) {
       picture_path = o['picture_path'].toString();
     }
     if (o['nat'] != null) {
       nat = o['nat'].toString();
     }
+    if (o['timezone_value'] != null) {
+      timezone_value = o['timezone_value'].toString();
+    }
+    if (o['timezone_description'] != null) {
+      timezone_description = o['timezone_description'].toString();
+    }
   }
   // FIELDS (User)
   int? id;
+  String? picture_source;
   String? email;
   String? title;
   String? first;
+  String? gender;
   String? last;
   String? street_number;
   String? street_name;
   String? location_city;
   String? location_state;
   String? location_contry;
-  String? location_postcode;
   String? coordinate_lat;
   String? coordinate_long;
   int? date_of_birth;
+  int? age;
+  int? registration_age;
   int? date_of_registration;
   String? phone;
   String? cell;
   String? id_value;
+  String? id_name;
   String? picture_path;
   String? nat;
+  String? timezone_value;
+  String? timezone_description;
 
   // end FIELDS (User)
 
@@ -259,6 +308,9 @@ class User extends TableBase {
       {bool forQuery = false, bool forJson = false, bool forView = false}) {
     final map = <String, dynamic>{};
     map['id'] = id;
+    if (picture_source != null || !forView) {
+      map['picture_source'] = picture_source;
+    }
     if (email != null || !forView) {
       map['email'] = email;
     }
@@ -267,6 +319,9 @@ class User extends TableBase {
     }
     if (first != null || !forView) {
       map['first'] = first;
+    }
+    if (gender != null || !forView) {
+      map['gender'] = gender;
     }
     if (last != null || !forView) {
       map['last'] = last;
@@ -286,9 +341,6 @@ class User extends TableBase {
     if (location_contry != null || !forView) {
       map['location_contry'] = location_contry;
     }
-    if (location_postcode != null || !forView) {
-      map['location_postcode'] = location_postcode;
-    }
     if (coordinate_lat != null || !forView) {
       map['coordinate_lat'] = coordinate_lat;
     }
@@ -297,6 +349,12 @@ class User extends TableBase {
     }
     if (date_of_birth != null || !forView) {
       map['date_of_birth'] = date_of_birth;
+    }
+    if (age != null || !forView) {
+      map['age'] = age;
+    }
+    if (registration_age != null || !forView) {
+      map['registration_age'] = registration_age;
     }
     if (date_of_registration != null || !forView) {
       map['date_of_registration'] = date_of_registration;
@@ -310,11 +368,20 @@ class User extends TableBase {
     if (id_value != null || !forView) {
       map['id_value'] = id_value;
     }
+    if (id_name != null || !forView) {
+      map['id_name'] = id_name;
+    }
     if (picture_path != null || !forView) {
       map['picture_path'] = picture_path;
     }
     if (nat != null || !forView) {
       map['nat'] = nat;
+    }
+    if (timezone_value != null || !forView) {
+      map['timezone_value'] = timezone_value;
+    }
+    if (timezone_description != null || !forView) {
+      map['timezone_description'] = timezone_description;
     }
 
     return map;
@@ -327,6 +394,9 @@ class User extends TableBase {
       bool forView = false]) async {
     final map = <String, dynamic>{};
     map['id'] = id;
+    if (picture_source != null || !forView) {
+      map['picture_source'] = picture_source;
+    }
     if (email != null || !forView) {
       map['email'] = email;
     }
@@ -335,6 +405,9 @@ class User extends TableBase {
     }
     if (first != null || !forView) {
       map['first'] = first;
+    }
+    if (gender != null || !forView) {
+      map['gender'] = gender;
     }
     if (last != null || !forView) {
       map['last'] = last;
@@ -354,9 +427,6 @@ class User extends TableBase {
     if (location_contry != null || !forView) {
       map['location_contry'] = location_contry;
     }
-    if (location_postcode != null || !forView) {
-      map['location_postcode'] = location_postcode;
-    }
     if (coordinate_lat != null || !forView) {
       map['coordinate_lat'] = coordinate_lat;
     }
@@ -365,6 +435,12 @@ class User extends TableBase {
     }
     if (date_of_birth != null || !forView) {
       map['date_of_birth'] = date_of_birth;
+    }
+    if (age != null || !forView) {
+      map['age'] = age;
+    }
+    if (registration_age != null || !forView) {
+      map['registration_age'] = registration_age;
     }
     if (date_of_registration != null || !forView) {
       map['date_of_registration'] = date_of_registration;
@@ -378,11 +454,20 @@ class User extends TableBase {
     if (id_value != null || !forView) {
       map['id_value'] = id_value;
     }
+    if (id_name != null || !forView) {
+      map['id_name'] = id_name;
+    }
     if (picture_path != null || !forView) {
       map['picture_path'] = picture_path;
     }
     if (nat != null || !forView) {
       map['nat'] = nat;
+    }
+    if (timezone_value != null || !forView) {
+      map['timezone_value'] = timezone_value;
+    }
+    if (timezone_description != null || !forView) {
+      map['timezone_description'] = timezone_description;
     }
 
     return map;
@@ -403,25 +488,31 @@ class User extends TableBase {
   @override
   List<dynamic> toArgs() {
     return [
+      picture_source,
       email,
       title,
       first,
+      gender,
       last,
       street_number,
       street_name,
       location_city,
       location_state,
       location_contry,
-      location_postcode,
       coordinate_lat,
       coordinate_long,
       date_of_birth,
+      age,
+      registration_age,
       date_of_registration,
       phone,
       cell,
       id_value,
+      id_name,
       picture_path,
-      nat
+      nat,
+      timezone_value,
+      timezone_description
     ];
   }
 
@@ -429,25 +520,31 @@ class User extends TableBase {
   List<dynamic> toArgsWithIds() {
     return [
       id,
+      picture_source,
       email,
       title,
       first,
+      gender,
       last,
       street_number,
       street_name,
       location_city,
       location_state,
       location_contry,
-      location_postcode,
       coordinate_lat,
       coordinate_long,
       date_of_birth,
+      age,
+      registration_age,
       date_of_registration,
       phone,
       cell,
       id_value,
+      id_name,
       picture_path,
-      nat
+      nat,
+      timezone_value,
+      timezone_description
     ];
   }
 
@@ -572,12 +669,12 @@ class User extends TableBase {
       {bool? exclusive, bool? noResult, bool? continueOnError}) async {
     List<dynamic>? result = [];
     // If there is no open transaction, start one
-    final isStartedBatch = await MyDbModel().batchStart();
+    final isStartedBatch = await FlutterTestModel().batchStart();
     for (final obj in users) {
       await obj.save(ignoreBatch: false);
     }
     if (!isStartedBatch) {
-      result = await MyDbModel().batchCommit(
+      result = await FlutterTestModel().batchCommit(
           exclusive: exclusive,
           noResult: noResult,
           continueOnError: continueOnError);
@@ -596,28 +693,34 @@ class User extends TableBase {
   Future<int?> upsert({bool ignoreBatch = true}) async {
     try {
       final result = await _mnUser.rawInsert(
-          'INSERT OR REPLACE INTO user (id, email, title, first, last, street_number, street_name, location_city, location_state, location_contry, location_postcode, coordinate_lat, coordinate_long, date_of_birth, date_of_registration, phone, cell, id_value, picture_path, nat)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+          'INSERT OR REPLACE INTO user (id, picture_source, email, title, first, gender, last, street_number, street_name, location_city, location_state, location_contry, coordinate_lat, coordinate_long, date_of_birth, age, registration_age, date_of_registration, phone, cell, id_value, id_name, picture_path, nat, timezone_value, timezone_description)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
           [
             id,
+            picture_source,
             email,
             title,
             first,
+            gender,
             last,
             street_number,
             street_name,
             location_city,
             location_state,
             location_contry,
-            location_postcode,
             coordinate_lat,
             coordinate_long,
             date_of_birth,
+            age,
+            registration_age,
             date_of_registration,
             phone,
             cell,
             id_value,
+            id_name,
             picture_path,
-            nat
+            nat,
+            timezone_value,
+            timezone_description
           ],
           ignoreBatch);
       if (result! > 0) {
@@ -643,7 +746,7 @@ class User extends TableBase {
   Future<BoolCommitResult> upsertAll(List<User> users,
       {bool? exclusive, bool? noResult, bool? continueOnError}) async {
     final results = await _mnUser.rawInsertAll(
-        'INSERT OR REPLACE INTO user (id, email, title, first, last, street_number, street_name, location_city, location_state, location_contry, location_postcode, coordinate_lat, coordinate_long, date_of_birth, date_of_registration, phone, cell, id_value, picture_path, nat)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT OR REPLACE INTO user (id, picture_source, email, title, first, gender, last, street_number, street_name, location_city, location_state, location_contry, coordinate_lat, coordinate_long, date_of_birth, age, registration_age, date_of_registration, phone, cell, id_value, id_name, picture_path, nat, timezone_value, timezone_description)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         users,
         exclusive: exclusive,
         noResult: noResult,
@@ -690,7 +793,9 @@ class User extends TableBase {
       ..qparams.distinct = true;
   }
 
-  void _setDefaultValues() {}
+  void _setDefaultValues() {
+    picture_source = picture_source ?? 'network';
+  }
 
   @override
   void rollbackPk() {
@@ -900,6 +1005,12 @@ class UserFilterBuilder extends ConjunctionBase {
     return _id = _setField(_id, 'id', DbType.integer);
   }
 
+  UserField? _picture_source;
+  UserField get picture_source {
+    return _picture_source =
+        _setField(_picture_source, 'picture_source', DbType.text);
+  }
+
   UserField? _email;
   UserField get email {
     return _email = _setField(_email, 'email', DbType.text);
@@ -913,6 +1024,11 @@ class UserFilterBuilder extends ConjunctionBase {
   UserField? _first;
   UserField get first {
     return _first = _setField(_first, 'first', DbType.text);
+  }
+
+  UserField? _gender;
+  UserField get gender {
+    return _gender = _setField(_gender, 'gender', DbType.text);
   }
 
   UserField? _last;
@@ -949,12 +1065,6 @@ class UserFilterBuilder extends ConjunctionBase {
         _setField(_location_contry, 'location_contry', DbType.text);
   }
 
-  UserField? _location_postcode;
-  UserField get location_postcode {
-    return _location_postcode =
-        _setField(_location_postcode, 'location_postcode', DbType.text);
-  }
-
   UserField? _coordinate_lat;
   UserField get coordinate_lat {
     return _coordinate_lat =
@@ -971,6 +1081,17 @@ class UserFilterBuilder extends ConjunctionBase {
   UserField get date_of_birth {
     return _date_of_birth =
         _setField(_date_of_birth, 'date_of_birth', DbType.numeric);
+  }
+
+  UserField? _age;
+  UserField get age {
+    return _age = _setField(_age, 'age', DbType.numeric);
+  }
+
+  UserField? _registration_age;
+  UserField get registration_age {
+    return _registration_age =
+        _setField(_registration_age, 'registration_age', DbType.numeric);
   }
 
   UserField? _date_of_registration;
@@ -994,6 +1115,11 @@ class UserFilterBuilder extends ConjunctionBase {
     return _id_value = _setField(_id_value, 'id_value', DbType.text);
   }
 
+  UserField? _id_name;
+  UserField get id_name {
+    return _id_name = _setField(_id_name, 'id_name', DbType.text);
+  }
+
   UserField? _picture_path;
   UserField get picture_path {
     return _picture_path =
@@ -1003,6 +1129,18 @@ class UserFilterBuilder extends ConjunctionBase {
   UserField? _nat;
   UserField get nat {
     return _nat = _setField(_nat, 'nat', DbType.text);
+  }
+
+  UserField? _timezone_value;
+  UserField get timezone_value {
+    return _timezone_value =
+        _setField(_timezone_value, 'timezone_value', DbType.text);
+  }
+
+  UserField? _timezone_description;
+  UserField get timezone_description {
+    return _timezone_description =
+        _setField(_timezone_description, 'timezone_description', DbType.text);
   }
 
   /// Deletes List<User> bulk by query
@@ -1229,6 +1367,12 @@ class UserFields {
     return _fId = _fId ?? SqlSyntax.setField(_fId, 'id', DbType.integer);
   }
 
+  static TableField? _fPicture_source;
+  static TableField get picture_source {
+    return _fPicture_source = _fPicture_source ??
+        SqlSyntax.setField(_fPicture_source, 'picture_source', DbType.text);
+  }
+
   static TableField? _fEmail;
   static TableField get email {
     return _fEmail =
@@ -1245,6 +1389,12 @@ class UserFields {
   static TableField get first {
     return _fFirst =
         _fFirst ?? SqlSyntax.setField(_fFirst, 'first', DbType.text);
+  }
+
+  static TableField? _fGender;
+  static TableField get gender {
+    return _fGender =
+        _fGender ?? SqlSyntax.setField(_fGender, 'gender', DbType.text);
   }
 
   static TableField? _fLast;
@@ -1282,13 +1432,6 @@ class UserFields {
         SqlSyntax.setField(_fLocation_contry, 'location_contry', DbType.text);
   }
 
-  static TableField? _fLocation_postcode;
-  static TableField get location_postcode {
-    return _fLocation_postcode = _fLocation_postcode ??
-        SqlSyntax.setField(
-            _fLocation_postcode, 'location_postcode', DbType.text);
-  }
-
   static TableField? _fCoordinate_lat;
   static TableField get coordinate_lat {
     return _fCoordinate_lat = _fCoordinate_lat ??
@@ -1305,6 +1448,18 @@ class UserFields {
   static TableField get date_of_birth {
     return _fDate_of_birth = _fDate_of_birth ??
         SqlSyntax.setField(_fDate_of_birth, 'date_of_birth', DbType.numeric);
+  }
+
+  static TableField? _fAge;
+  static TableField get age {
+    return _fAge = _fAge ?? SqlSyntax.setField(_fAge, 'age', DbType.numeric);
+  }
+
+  static TableField? _fRegistration_age;
+  static TableField get registration_age {
+    return _fRegistration_age = _fRegistration_age ??
+        SqlSyntax.setField(
+            _fRegistration_age, 'registration_age', DbType.numeric);
   }
 
   static TableField? _fDate_of_registration;
@@ -1331,6 +1486,12 @@ class UserFields {
         _fId_value ?? SqlSyntax.setField(_fId_value, 'id_value', DbType.text);
   }
 
+  static TableField? _fId_name;
+  static TableField get id_name {
+    return _fId_name =
+        _fId_name ?? SqlSyntax.setField(_fId_name, 'id_name', DbType.text);
+  }
+
   static TableField? _fPicture_path;
   static TableField get picture_path {
     return _fPicture_path = _fPicture_path ??
@@ -1341,13 +1502,26 @@ class UserFields {
   static TableField get nat {
     return _fNat = _fNat ?? SqlSyntax.setField(_fNat, 'nat', DbType.text);
   }
+
+  static TableField? _fTimezone_value;
+  static TableField get timezone_value {
+    return _fTimezone_value = _fTimezone_value ??
+        SqlSyntax.setField(_fTimezone_value, 'timezone_value', DbType.text);
+  }
+
+  static TableField? _fTimezone_description;
+  static TableField get timezone_description {
+    return _fTimezone_description = _fTimezone_description ??
+        SqlSyntax.setField(
+            _fTimezone_description, 'timezone_description', DbType.text);
+  }
 }
 // endregion UserFields
 
 //region UserManager
 class UserManager extends SqfEntityProvider {
   UserManager()
-      : super(MyDbModel(),
+      : super(FlutterTestModel(),
             tableName: _tableName,
             primaryKeyList: _primaryKeyList,
             whereStr: _whereStr);
@@ -1357,7 +1531,7 @@ class UserManager extends SqfEntityProvider {
 }
 
 //endregion UserManager
-class MyDbModelSequenceManager extends SqfEntityProvider {
-  MyDbModelSequenceManager() : super(MyDbModel());
+class FlutterTestModelSequenceManager extends SqfEntityProvider {
+  FlutterTestModelSequenceManager() : super(FlutterTestModel());
 }
 // END OF ENTITIES

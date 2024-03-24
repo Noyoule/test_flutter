@@ -13,31 +13,37 @@ const tableUser = SqfEntityTable(
     useSoftDeleting: false,
     modelName: null,
     fields: [
+      SqfEntityField("picture_source", DbType.text, defaultValue: "network"),
       SqfEntityField("email", DbType.text),
       SqfEntityField('title', DbType.text),
       SqfEntityField("first", DbType.text),
+      SqfEntityField("gender", DbType.text),
       SqfEntityField("last", DbType.text),
       SqfEntityField("street_number", DbType.text),
       SqfEntityField("street_name", DbType.text),
       SqfEntityField("location_city", DbType.text),
       SqfEntityField("location_state", DbType.text),
       SqfEntityField("location_contry", DbType.text),
-      SqfEntityField("location_postcode", DbType.text),
       SqfEntityField("coordinate_lat", DbType.text),
       SqfEntityField("coordinate_long", DbType.text),
       SqfEntityField("date_of_birth", DbType.numeric),
+      SqfEntityField("age", DbType.numeric),
+      SqfEntityField("registration_age", DbType.numeric),
       SqfEntityField("date_of_registration", DbType.numeric),
       SqfEntityField("phone", DbType.text),
       SqfEntityField("cell", DbType.text),
       SqfEntityField("id_value", DbType.text),
+      SqfEntityField("id_name", DbType.text),
       SqfEntityField("picture_path", DbType.text),
-      SqfEntityField("nat", DbType.text)
+      SqfEntityField("nat", DbType.text),
+      SqfEntityField("timezone_value", DbType.text),
+      SqfEntityField("timezone_description", DbType.text)
     ]);
 
 @SqfEntityBuilder(myDbModel)
 const myDbModel = SqfEntityModel(
-    modelName: 'MyDbModel', // optional
-    databaseName: 'sampleORM.db',
+    modelName: 'flutterTestModel', // optional
+    databaseName: 'flutterTestModel.db',
     password: null,
     databaseTables: [tableUser],
     bundledDatabasePath: null);

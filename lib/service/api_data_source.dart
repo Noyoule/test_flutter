@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../model/user_model.dart';
 
@@ -16,8 +17,11 @@ class ApiDataSource {
           results.map((json) => UserModel.fromJson(json)).toList();
       return users;
     } catch (error) {
-      print('Error fetching data: $error');
+      if (kDebugMode) {
+        print('Error fetching data: $error');
+      }
       rethrow;
     }
   }
+
 }
