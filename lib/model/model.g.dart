@@ -70,8 +70,8 @@ class TableUser extends SqfEntityTableBase {
 // END TABLES
 
 // BEGIN DATABASE MODEL
-class FlutterTestModel extends SqfEntityModelProvider {
-  FlutterTestModel() {
+class FlutterTestModelRelease extends SqfEntityModelProvider {
+  FlutterTestModelRelease() {
     databaseName = myDbModel.databaseName;
     password = myDbModel.password;
     dbVersion = myDbModel.dbVersion;
@@ -669,12 +669,12 @@ class User extends TableBase {
       {bool? exclusive, bool? noResult, bool? continueOnError}) async {
     List<dynamic>? result = [];
     // If there is no open transaction, start one
-    final isStartedBatch = await FlutterTestModel().batchStart();
+    final isStartedBatch = await FlutterTestModelRelease().batchStart();
     for (final obj in users) {
       await obj.save(ignoreBatch: false);
     }
     if (!isStartedBatch) {
-      result = await FlutterTestModel().batchCommit(
+      result = await FlutterTestModelRelease().batchCommit(
           exclusive: exclusive,
           noResult: noResult,
           continueOnError: continueOnError);
@@ -1521,7 +1521,7 @@ class UserFields {
 //region UserManager
 class UserManager extends SqfEntityProvider {
   UserManager()
-      : super(FlutterTestModel(),
+      : super(FlutterTestModelRelease(),
             tableName: _tableName,
             primaryKeyList: _primaryKeyList,
             whereStr: _whereStr);
@@ -1531,7 +1531,7 @@ class UserManager extends SqfEntityProvider {
 }
 
 //endregion UserManager
-class FlutterTestModelSequenceManager extends SqfEntityProvider {
-  FlutterTestModelSequenceManager() : super(FlutterTestModel());
+class FlutterTestModelReleaseSequenceManager extends SqfEntityProvider {
+  FlutterTestModelReleaseSequenceManager() : super(FlutterTestModelRelease());
 }
 // END OF ENTITIES

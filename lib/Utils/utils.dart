@@ -8,11 +8,11 @@ import 'dart:io';
 import 'package:image/image.dart';
 
 
-void fetchAndSaveData() async {
+Future<void> fetchAndSaveData() async {
   var source = LocaleDataSource();
-  List<User> users = await User().select().toList();
+  List<User> users = await User().select().top(3).toList();
   if (users.isEmpty) {
-    source.saveDataFromApi();
+    await source.saveDataFromApi();
   }
 }
 

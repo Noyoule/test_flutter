@@ -42,8 +42,8 @@ const tableUser = SqfEntityTable(
 
 @SqfEntityBuilder(myDbModel)
 const myDbModel = SqfEntityModel(
-    modelName: 'flutterTestModel', // optional
-    databaseName: 'flutterTestModel.db',
+    modelName: 'flutterTestModelRelease', // optional
+    databaseName: 'flutterTestModelRelease.db',
     password: null,
     databaseTables: [tableUser],
-    bundledDatabasePath: null);
+    bundledDatabasePath: "assets/databases/sample.db");

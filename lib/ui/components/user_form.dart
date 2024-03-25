@@ -167,7 +167,7 @@ class _UserFormState extends State<UserForm> {
                         child: Center(
                           child: _image == null && widget.user == null
                               ? const Text(
-                                  "Ajouter une image",
+                                  "Add an image",
                                   style: TextStyle(color: Colors.grey),
                                 )
                               : _image != null
